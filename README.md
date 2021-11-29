@@ -4,10 +4,10 @@
 
 ### 구성원
 
-|                     조장                      |                 팀원                 |                  팀원                  |                  팀원                   |
-| :-------------------------------------------: | :----------------------------------: | :------------------------------------: | :-------------------------------------: |
-| [송학현](https://github.com/alanhakhyeonsong) | [김주영](https://github.com/KimJooY) | [신재훈](https://github.com/newjaehun) | [정윤찬](https://github.com/dbscks2140) |
-|               BackEnd & Android               |               Android                |                Android                 |                 Android                 |
+|                          조장                          |                     팀원                      |                      팀원                       |                       팀원                       |
+| :----------------------------------------------------: | :-------------------------------------------: | :---------------------------------------------: | :----------------------------------------------: |
+| 20174329 [송학현](https://github.com/alanhakhyeonsong) | 20174255 [김주영](https://github.com/KimJooY) | 20174308 [신재훈](https://github.com/newjaehun) | 20174281 [정윤찬](https://github.com/dbscks2140) |
+|                   BackEnd & Android                    |                    Android                    |                     Android                     |                     Android                      |
 
 ### Used Stack
 
@@ -84,7 +84,7 @@ git branch hakhyeon
 ```bash
 git chekcout 이동할브랜치이름
 //예시
-git checkout 6mn12j
+git checkout hakhyeon
 ```
 
 4. git add
@@ -107,7 +107,7 @@ git push (저장소 별칭) (브랜치이름)
 git push origin hakhyeon
 ```
 
-7. pull :현재 원격저장소의 커밋을 로컬로 가져옴
+7. pull : 현재 원격저장소의 커밋을 로컬로 가져옴
 
 ```bash
 git pull (저장소 별칭) (브랜치이름)
