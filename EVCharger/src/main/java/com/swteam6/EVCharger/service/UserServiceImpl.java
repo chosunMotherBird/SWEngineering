@@ -25,7 +25,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public boolean isExistedEmail(UserDto.SignUpRequest dto) throws Exception {
-        return repository.findByEmail(dto.toEntity().getEmail()) != null;
+        return repository.findByEmail(dto.getEmail()) != null;
     }
 
+    @Override
+    public UserEntity login(UserDto.LoginRequest dto) throws Exception {
+        return repository.findByEmailAndUserPass(dto.getEmail(), dto.getUserPass());
+    }
 }

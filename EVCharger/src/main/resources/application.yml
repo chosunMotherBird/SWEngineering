@@ -12,3 +12,11 @@ spring:
     url: jdbc:h2:mem:testdb
     username: sa
     password:
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    generate-ddl: true
+    database: h2
