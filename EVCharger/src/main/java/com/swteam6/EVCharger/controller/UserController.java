@@ -19,4 +19,19 @@ public class UserController {
     public UserDto.Response createUser(@RequestBody UserDto.SignUpRequest dto) throws Exception {
         return new UserDto.Response(userService.create(dto));
     }
+
+    @PostMapping("/login")
+    @ResponseStatus(value = HttpStatus.OK)
+    public UserDto.Response loginUser(@RequestBody UserDto.LoginRequest dto) throws Exception {
+        String tempEmail = dto.getEmail();
+        String tempPass = dto.getUserPass();
+        UserDto.Response response = null;
+        if (tempEmail != null && tempPass != null) {
+            response = new UserDto.Response(userService.login(dto));
+        }
+        if (response == null) {
+            throw new Exception("bad request");
+        }
+        return response;
+    }
 }

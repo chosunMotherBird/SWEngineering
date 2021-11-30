@@ -8,4 +8,6 @@ public interface UserService {
     UserEntity create(UserDto.SignUpRequest dto) throws Exception;
 
     boolean isExistedEmail(UserDto.SignUpRequest dto) throws Exception;
+
+    UserEntity login(UserDto.LoginRequest dto) throws Exception;
 }
