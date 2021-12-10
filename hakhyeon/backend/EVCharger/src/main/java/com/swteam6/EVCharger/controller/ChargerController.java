@@ -3,8 +3,12 @@ package com.swteam6.EVCharger.controller;
 import com.swteam6.EVCharger.domain.charger.ChargerDto;
 import com.swteam6.EVCharger.service.ChargerServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -26,10 +30,12 @@ public class ChargerController {
         return chargerService.getAllChargers();
     }
 
-    // 주소 입력 조회
-    @GetMapping("/address")
-    public List<ChargerDto.Response> findAllChargerByAddress(@RequestBody ChargerDto.SearchByAddressRequest dto) throws Exception {
-        return chargerService.findAllChargerByAddress(dto);
+    // 도로명 주소 입력 조회
+    @PostMapping("/address")
+    public ResponseEntity<List<ChargerDto.Response>> findAllChargerByAddress(@Valid @RequestBody ChargerDto.SearchByAddressRequest dto) throws Exception {
+        List<ChargerDto.Response> response = chargerService.findAllChargerByAddress(dto);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

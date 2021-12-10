@@ -5,6 +5,7 @@ import com.swteam6.EVCharger.domain.charger.ChargerEntity;
 import com.swteam6.EVCharger.repository.ChargerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,5 +39,11 @@ public class ChargerServiceImpl implements ChargerService {
             dtoList.add(new ChargerDto.Response(entity));
         }
         return dtoList;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean isExistedAddress(ChargerDto.SearchByAddressRequest dto) throws Exception {
+        return repository.findByAddressContaining(dto.getAddress()) != null;
     }
 }
