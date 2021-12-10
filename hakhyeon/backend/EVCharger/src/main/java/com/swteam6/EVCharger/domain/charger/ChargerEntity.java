@@ -3,8 +3,10 @@ package com.swteam6.EVCharger.domain.charger;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @NoArgsConstructor
@@ -27,6 +29,7 @@ public class ChargerEntity {
     private String parkingFee;
     private Double lat;
     private Double lon;
+    @NotEmpty // 유효성 검사를 위한 애노테이션
     private String address;
 
     @Builder

@@ -14,4 +14,6 @@ public interface ChargerService {
 
     // findAllByAddressContains: address값을 포함하는 객체들을 List 반환
     List<ChargerDto.Response> findAllChargerByAddress(ChargerDto.SearchByAddressRequest dto) throws Exception;
+
+    boolean isExistedAddress(ChargerDto.SearchByAddressRequest dto) throws Exception;
 }
