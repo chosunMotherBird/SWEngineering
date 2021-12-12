@@ -2,7 +2,10 @@ package com.example.project6;
 
 import androidx.annotation.Nullable;
 
-public class ChargerDTO {
+import java.io.Serializable;
+
+public class ChargerDTO implements Serializable {
+    private static final long serialVersionUID=1L;
     private int id;
     private String chargerName;
     private String chargerLocation;
