@@ -3,17 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <fragment
-        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+
     <Button
-        android:id="@+id/search"
+        android:id="@+id/login_btn_inMain"
+        android:text="로그인"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </Button>
+
+    <Button
+        android:id="@+id/search_btn_inMain"
+        android:text="검색"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        />
+        android:layout_alignParentRight="true" />
     <LinearLayout
         android:id="@+id/cardView"
         android:visibility="invisible"

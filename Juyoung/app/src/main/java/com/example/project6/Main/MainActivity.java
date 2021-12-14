@@ -4,16 +4,20 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.project6.ChargerDTO;
-import com.example.project6.ChargerSearch;
+import com.example.project6.Charger.ChargerDTO;
+import com.example.project6.SearchPage.ChargerSearch;
 import com.example.project6.R;
-import com.example.project6.RequestHttpConnection;
+import com.example.project6.ChargerSearch.ChargerSearchRequest;
+import com.example.project6.User.UserDTO;
+import com.example.project6.logIn.LoginActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -28,10 +32,13 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private ArrayList<ChargerDTO> chargerList;
-    private Button searchButton;
+    private Button searchBtn;
+    private Button logInBtn;
     private JSONArray jsonArray;
     private ChargerDTO selectedCharger;
+    private UserDTO userDTO=new UserDTO();
     private GoogleMap mMap;
+    private boolean isLogIn=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,20 +50,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        searchButton=findViewById(R.id.search);
-        String url="http://192.168.0.2:8088/chargers/all";
-        NetworkTask networkTask=new NetworkTask(url,null);
+        searchBtn =findViewById(R.id.search_btn_inMain);
+        logInBtn =findViewById(R.id.login_btn_inMain);
+
+        NetworkTask networkTask=new NetworkTask("http://192.168.0.2:8088/chargers/all",null);
         networkTask.execute();
 
-        LatLng SEOUL = new LatLng(37.56d, 126.97d);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
+        LatLng GwangJu = new LatLng(35.1595454, 126.8526012);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(GwangJu));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
         mMap.setMapType(1);
 
         Intent intent=getIntent();
         if(intent.hasExtra("selected")){
             LinearLayout cardView = findViewById(R.id.cardView);
-            ChargerDTO selectedCharger=(ChargerDTO)intent.getSerializableExtra("selected");
+            selectedCharger=(ChargerDTO)intent.getSerializableExtra("selected");
             double lat=selectedCharger.getLat();
             double lon=selectedCharger.getLon();
             LatLng want = new LatLng(lat, lon);
@@ -65,23 +73,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
             cardView.setVisibility(View.VISIBLE);
         }
+        else if(intent.hasExtra("userDTO")){
+            userDTO=(UserDTO)intent.getSerializableExtra("userDTO");
+            logInBtn.setText("로그아웃");
+            isLogIn=true;
+        }
+        else{
+            Log.e("intent extra error", "has no extra in intent");
+        }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                LinearLayout cardView = findViewById(R.id.cardView);
-                SearchChargerDetail searchChargerDetail = new SearchChargerDetail(marker.getTag());
-                Thread t = new Thread(searchChargerDetail);
+                SearchChargerDetailThread searchChargerDetailThread = new SearchChargerDetailThread(marker.getTag());
+                Thread t = new Thread(searchChargerDetailThread);
                 t.start();
                 try {
                     t.join();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                String result = searchChargerDetail.getResult();
+                String result = searchChargerDetailThread.getResult();
                 selectedCharger=makeSelectedCharerDTO(result);
                 makeCardviewText(selectedCharger);
-                cardView.setVisibility(View.VISIBLE);
+                displayCardView();
                 return false;
             }
         });
@@ -89,12 +104,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                LinearLayout cardView=findViewById(R.id.cardView);
-                cardView.setVisibility(View.GONE);
+                goneCardView();
+
             }
         });
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
+        searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(MainActivity.this, ChargerSearch.class);
@@ -102,12 +117,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        logInBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isLogIn) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    isLogIn=false;
+                    userDTO=new UserDTO();
+                    logInBtn.setText("로그인");
+                }
+            }
+        });
     }
 
 
-
-
-    public ArrayList<ChargerDTO> makeChargerList(JSONArray jsonArray) {
+    public static ArrayList<ChargerDTO> makeChargerList(JSONArray jsonArray) {
         ArrayList<ChargerDTO> list=new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             try {
@@ -179,19 +206,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void displayCardView(){
-
+        LinearLayout cardView=findViewById(R.id.cardView);
+        cardView.setVisibility(View.VISIBLE);
     }
-    public class SearchChargerDetail extends Thread {
+
+    public void goneCardView(){
+        LinearLayout cardView=findViewById(R.id.cardView);
+        cardView.setVisibility(View.GONE);
+    }
+
+
+
+    public class SearchChargerDetailThread extends Thread {
         private Object id;
         private String result;
 
-        public SearchChargerDetail(Object id) {
+        public SearchChargerDetailThread(Object id) {
             this.id = id;
         }
 
         @Override
         public void run() {
-            result = new RequestHttpConnection().request("http://192.168.0.2:8088/chargers/" + id, null);
+            result = new ChargerSearchRequest().allChargerRequest("http://192.168.0.2:8088/chargers/" + id, null);
         }
 
         public String getResult() {
@@ -218,8 +254,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         public String doInBackground(Void... params) {
             String result;
-            RequestHttpConnection requestHttpConnection=new RequestHttpConnection();
-            result = requestHttpConnection.request(url,values);
+            ChargerSearchRequest chargerSearchRequest =new ChargerSearchRequest();
+            result = chargerSearchRequest.allChargerRequest(url,values);
             return result;
         }
 
