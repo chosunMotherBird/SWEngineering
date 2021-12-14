@@ -15,7 +15,13 @@
         android:theme="@style/Theme.Project6"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ChargerSearch"
+            android:name=".logIn.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SignUp.SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchPage.ChargerSearch"
             android:exported="false" />
         <activity
             android:name=".Main.MainActivity"
