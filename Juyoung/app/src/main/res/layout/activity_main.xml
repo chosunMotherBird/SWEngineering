@@ -8,12 +8,18 @@
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        />
     <LinearLayout
         android:id="@+id/cardView"
         android:visibility="invisible"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginBottom="30dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="70dp"
         android:layout_alignParentBottom="true">
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -23,46 +29,93 @@
             <LinearLayout android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="255dp">
-                <TextView android:textSize="30sp"
-                    android:id="@+id/detail"
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="상세정보"/>
-                <TextView
-                    android:textSize="20sp"
-                    android:id="@+id/chargerAddress"
+                    android:orientation="horizontal">
+                    <TextView android:textSize="30sp"
+                        android:id="@+id/detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="상세정보"/>
+                    <TextView
+                        android:id="@+id/detailMore"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:text="자세한 정보"/>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123123123"/>
-                <TextView
-                    android:textSize="20sp"
-                    android:id="@+id/chargerName"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="도시 : "/>
+                    <TextView
+                        android:id="@+id/city"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123123123"/>
-                <TextView
-                    android:textSize="20sp"
-                    android:id="@+id/chargerLocation"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="닫는 날 : "/>
+                    <TextView
+                        android:id="@+id/close_dates"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123123123"/>
-                <TextView
-                    android:textSize="20sp"
-                    android:id="@+id/fastChargeType"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="주소 : "/>
+                    <TextView
+                        android:id="@+id/address"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="123123123"/>
-                <TextView
-                    android:textSize="20sp"
-                    android:id="@+id/fastNum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="123123123"/>
-                <TextView
-                    android:textSize="20sp" android:id="@+id/parkingFee"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="123123123"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="충전소 위치 : "/>
+                    <TextView
+                        android:id="@+id/location"
+                        android:textSize="20sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
