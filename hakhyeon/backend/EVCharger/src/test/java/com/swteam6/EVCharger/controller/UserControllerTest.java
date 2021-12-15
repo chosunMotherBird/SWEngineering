@@ -116,15 +116,11 @@ class UserControllerTest {
     @Test
     @Order(4)
     void loginUserFailed() throws Exception {
-        // given
-        UserDto.LoginRequest loginRequest = new UserDto.LoginRequest("null" , "null");
-        Gson gson = new Gson();
-        String content = gson.toJson(loginRequest);
 
         // when
         mockMvc.perform(post("/users/login")
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(content))
+                    .content("{\"email\": null, \"userPass\": null"))
                 // then
                 .andExpect(status().is4xxClientError())
                 .andDo(MockMvcResultHandlers.print());
