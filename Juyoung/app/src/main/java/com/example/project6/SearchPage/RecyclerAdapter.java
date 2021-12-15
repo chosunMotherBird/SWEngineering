@@ -63,6 +63,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
                     ChargerDTO chargerDTO=chargerList.get(position);
                     Intent intent=new Intent(v.getContext(), MainActivity.class);
                     intent.putExtra("selected", chargerDTO);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                 }
             });

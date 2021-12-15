@@ -15,10 +15,15 @@
         android:theme="@style/Theme.Project6"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".logIn.LoginActivity"
+            android:name=".DetailPage.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".SignUp.SignupActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:name=".LogInPage.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:windowSoftInputMode="adjustResize"
+            android:name=".SignUpPage.SignupActivity"
             android:exported="false" />
         <activity
             android:name=".SearchPage.ChargerSearch"
