@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 /**
  * Author: Song Hak Hyeon
@@ -33,7 +34,7 @@ public class ChargerEntity {
     private String parkingFee;
     private Double lat;
     private Double lon;
-    @NotEmpty // hibernate에서 제공하는 유효성 검사를 위한 애노테이션
+    @NotNull // hibernate에서 제공하는 유효성 검사를 위한 애노테이션
     private String address;
 
     // @Builder 패턴으로 생성자 대신 객체를 유연하게 생성함
