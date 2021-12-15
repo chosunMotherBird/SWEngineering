@@ -9,12 +9,20 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
+/**
+ * Author: Song Hak Hyeon
+ * User(회원)에 관한 logic을 처리하는 Service Layer 입니다.
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
 
+    /**
+     * 회원가입 처리
+     */
     @Override
     @Transactional
     public UserEntity create(UserDto.SignUpRequest dto) throws Exception {
@@ -41,6 +49,9 @@ public class UserServiceImpl implements UserService {
         return repository.findByEmail(dto.getEmail()) != null;
     }
 
+    /**
+     * 로그인 처리
+     */
     @Override
     public UserEntity login(UserDto.LoginRequest dto) throws Exception {
         if (!isExistedEmailV2(dto)) {

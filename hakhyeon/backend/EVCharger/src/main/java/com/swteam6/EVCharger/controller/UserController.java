@@ -9,12 +9,24 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+/**
+ * Author: Song Hak Hyeon
+ * Client의 User(회원)에 관한 요청을 처리하는 Server의 Controller
+ *
+ * 회원 가입(createUser) : POST - "/user"
+ * 로그인(loginUser) : POST - "/user/login"
+ */
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
     private final UserServiceImpl userService;
 
+    /**
+     * Client에서 입력한 email, userPass, userName, phoneNum 값이 JSON 형식으로 Server에 전달 되고,
+     * Server는 해당하는 값들을 parsing 하여 UserDto.SignUpRequest 객체로 생성하여 처리합니다.
+     */
     // 회원 가입
     @PostMapping
     public ResponseEntity<UserDto.Response> createUser(@Valid @RequestBody UserDto.SignUpRequest dto) throws Exception {
@@ -23,6 +35,10 @@ public class UserController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    /**
+     * Client에서 입력한 email, userPass 값이 JSON 형식으로 Server에 전달 되고,
+     * Server는 해당하는 값들을 parsing 하여 UserDto.LoginRequest 객체로 생성하여 처리합니다.
+     */
     // 로그인
     @PostMapping("/login")
     public ResponseEntity<UserDto.Response> loginUser(@Valid @RequestBody UserDto.LoginRequest dto) throws Exception {
