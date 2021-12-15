@@ -11,7 +11,16 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 회원가입 요청을 위한 class
+ */
 public class SignUpRequest {
+    /**
+     * 이 함수는 회원가입을 위한 함수임.
+     * @param _url localhost:8080/users
+     * @param userDTO 회원가입을 위한 userDTO
+     * @return responseCode
+     */
     public int requestSignUp(String _url, UserDTO userDTO){
         HttpURLConnection urlConn= null;
         String json="";

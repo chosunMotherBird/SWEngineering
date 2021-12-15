@@ -4,6 +4,10 @@ import androidx.annotation.Nullable;
 
 import java.io.Serializable;
 
+/**
+ * 충전소 정보를 주고 받기위한 DTO
+ * Intent 로 정보를 보내고 받기 위하여 Serializable 해야함.
+ */
 public class ChargerDTO implements Serializable {
     private static final long serialVersionUID=1L;
     private int id;

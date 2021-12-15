@@ -9,7 +9,11 @@ import android.widget.TextView;
 import com.example.project6.Charger.ChargerDTO;
 import com.example.project6.R;
 
+/**
+ * 상세정보화면
+ */
 public class DetailActivity extends AppCompatActivity {
+
     ChargerDTO selectedChargerDTO;
     private TextView chargerName;
     private TextView chargerLocation;
@@ -34,12 +38,22 @@ public class DetailActivity extends AppCompatActivity {
         parkingFee=findViewById(R.id.parkingFee_inDetail);
         chargerAddress=findViewById(R.id.chargerAddress_inDetail);
 
+
         Intent intent=getIntent();
+        /**
+         * 인텐트에서 selectedCharger extra 를 받으면 실행하고
+         * 화면에 상세정보 출력
+         */
         if(intent.hasExtra("selectedCharger")){
             selectedChargerDTO=(ChargerDTO) intent.getSerializableExtra("selectedCharger");
             makeTextView(selectedChargerDTO);
         }
     }
+
+    /**
+     * TextView 들을 설정하는 함수
+     * @param chargerDTO 선택된 충전소
+     */
     public void makeTextView(ChargerDTO chargerDTO){
         chargerName.setText(chargerDTO.getChargerName());
         chargerLocation.setText(chargerDTO.getChargerLocation());

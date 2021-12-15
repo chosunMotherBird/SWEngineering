@@ -37,6 +37,10 @@ public class LoginActivity extends AppCompatActivity {
         password_edt=findViewById(R.id.password_editText_inLogIn);
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * 로그인화면에서 회원가입화면으로 전환
+             * @param v signUpBtn
+             */
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(LoginActivity.this, SignupActivity.class);
@@ -45,6 +49,19 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         logInBtn.setOnClickListener(new View.OnClickListener() {
+            /**
+             * 로그인버튼 클릭 리스너
+             * 1.email, password 를 editText 에서 getText 한다.
+             * 2.만약 입력되지 않았다면 에러
+             * 3.이메일이 이메일 형식이 아니라면 에러
+             * 4.아니라면 로그인시도
+             * 4-1. String result = logInRequestThread.getResult(); 에서 result 는 로그인 성공시 userDTO 아니라면 Error ResponseCode임.
+             * 4-2. 404는 유저가 없음을, 400은 아이디패스워드 불일치
+             * 4-3. 로그인 성공시  해당 유저 정보를  MainActivity 에 넘겨줌.
+             *
+             *  ** 만약 새로운 에러코드가 발생하면 추가해야함. 더 좋은 방법이 생각나면 바꿀예정.
+             * @param v logInBtn
+             */
             @Override
             public void onClick(View v) {
                 Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -92,6 +109,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 비동기 처리를 위한 logIn Thread
+     */
     public class LogInRequestThread extends Thread {
         private String result;
         private UserDTO userDTO;
@@ -101,11 +121,19 @@ public class LoginActivity extends AppCompatActivity {
             result = new LoginRequest().requestLogin("http://192.168.0.2:8088/users/login",userDTO);
         }
 
+        /**
+         * @return Error ResponseCode 혹은 user 정보
+         */
         public String getResult() {
             return this.result;
         }
     }
 
+    /**
+     * 서버에서 로그인 성공 시 받아온 user 정보를 userDTO 로 바꿈.
+     * @param result 서버에서 받아온 user 정보
+     * @return userDTO
+     */
     public UserDTO makeUserDTO(String result){
         UserDTO userDTO=null;
         try {
