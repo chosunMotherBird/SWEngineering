@@ -13,11 +13,12 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project6.Charger.ChargerDTO;
+import com.example.project6.ChargerSearch.ChargerSearchRequest;
+import com.example.project6.DetailPage.DetailActivity;
 import com.example.project6.SearchPage.ChargerSearch;
 import com.example.project6.R;
-import com.example.project6.ChargerSearch.ChargerSearchRequest;
 import com.example.project6.User.UserDTO;
-import com.example.project6.logIn.LoginActivity;
+import com.example.project6.LogInPage.LoginActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ChargerDTO selectedCharger;
     private UserDTO userDTO=new UserDTO();
     private GoogleMap mMap;
+    private TextView detailMore;
     private boolean isLogIn=false;
 
     @Override
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap = googleMap;
         searchBtn =findViewById(R.id.search_btn_inMain);
         logInBtn =findViewById(R.id.login_btn_inMain);
+        detailMore=findViewById(R.id.detailMore);
 
         NetworkTask networkTask=new NetworkTask("http://192.168.0.2:8088/chargers/all",null);
         networkTask.execute();
@@ -131,6 +134,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
         });
+
+        detailMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(MainActivity.this, DetailActivity.class);
+                intent.putExtra("selectedCharger",selectedCharger);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
