@@ -44,7 +44,7 @@ Spring framework로 만든 RESTful API 서버와 이를 이용한 Android 앱의
 
 > - 로그인 화면에서 email과 password를 입력하여 로그인을 하면 등록된 회원으로 로그인이 되고 메인화면으로 넘어가게 됩니다.
 > - 그 결과로 클라이언트가 정상 응답(2xx)을 받게 되면 기존 메인화면의 좌측 상단에 위치한 로그인 버튼이 로그아웃으로 바뀌게 됩니다.
-> - (초기 프로젝트 계획서에 있었던 "로그인 된 회원만 충전소 이용 후기 작성 기능"은 구현하지 않았습니다. 추 후 Http Cookie, Session 정보와 JPA의 테이블 연관관계 외래핑 매핑을 활용하여 구현할 예정입니다.)
+> - (초기 프로젝트 계획서에 있었던 "로그인 된 회원만 충전소 이용 후기 작성 기능"은 구현하지 않았습니다. 추 후 Http Cookie, Session 정보와 JPA의 테이블 연관관계 외래키 매핑을 활용하여 구현할 예정입니다.)
 
 - Google Maps를 이용한 메인 화면에서 전체 충전소 위치를 마커로 불러오기 및 충전소 정보 미리보기(추가 기능)
 
@@ -100,6 +100,7 @@ Spring framework로 만든 RESTful API 서버와 이를 이용한 Android 앱의
 
 - [commit과 pull request 기록](https://github.com/chosunMotherBird/SWEngineering/pulls?q=is%3Apr+is%3Aclosed)
 - [Backend 구현 시 겪었던 issue와 해결 기록](https://github.com/chosunMotherBird/SWEngineering/issues)
+- [test code - server](https://github.com/chosunMotherBird/SWEngineering/pull/22)
 
 ## 개발과정에서 Repository를 사용하기 위한 Git/GitHub 설정 Guide
 
