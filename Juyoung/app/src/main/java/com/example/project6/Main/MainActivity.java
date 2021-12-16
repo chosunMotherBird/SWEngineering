@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project6.Charger.ChargerDTO;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Button logInBtn; // 메인화면의 로그인버튼
     private JSONArray jsonArray; // 서버에서 받아올 충전소를 위한 JSONArray
     private ChargerDTO selectedCharger; // 메인화면에서 선택하거나, 검색한 충전소를 저장할 chargerDTO 인스턴스
-    private UserDTO userDTO=new UserDTO(); // 로그인 성공시 유저 정보를 저장할 userDTO 인스턴스
+    private UserDTO userDTO; // 로그인 성공시 유저 정보를 저장할 userDTO 인스턴스
     private GoogleMap mMap; // 구글맵
     private TextView detailMore; // 충전소 클릭시 카드뷰가 나오는데, 오측 상단 "자세한정보" 라 표시된 TextView, 클릭시 상세정보화면으로 전환
     private boolean isLogIn=false; //지금 유저가 로그인 되어있는지 안되어 있는지 확인할 boolean, 초기값은 로그인이 되지 않은 상태.
@@ -71,48 +73,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
         mMap.setMapType(1);
 
-        /**
-         * 다른 activity에서 보낸 Intent를 받아 처리하는 부분.
-         */
-        Intent intent=getIntent();
-        if(intent.hasExtra("selectedCharger")){
-            /**
-             * 검색화면에서 보낸 ChargerDTO 를 받는 부분.
-             * selectedCharger 라는 extra 를 받으면 실행 됨.
-             * selectedCharger 는 검색화면에서 검색 후 선택한 결과 ChargerDTO 임.
-             * ChargerDTO 를 받으면 그 충전소의 위도 경도를 받아 지도를 이동시키고 cardView를 통해 대략적인 정보를 알려줌.
-             * makeCardViewText 는 선택된 충전소에 대한 대략적인 정보를 표시하기 위해 cardView 의 TextView 들을 초기화하는 함수
-             */
-            displayCardView();
-            selectedCharger=(ChargerDTO)intent.getSerializableExtra("selectedCharger");
-            double lat=selectedCharger.getLat();
-            double lon=selectedCharger.getLon();
-            LatLng want = new LatLng(lat, lon);
-            makeCardViewText(selectedCharger);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(want));
-            mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
-
-        }
-        else if(intent.hasExtra("userDTO")){
-            /**
-             * 로그인화면에서 보낸 userDTO 를 받는 부분
-             * userDTO 라는 extra 를 받으면 실행 됨.
-             * 이 부분은 로그인이 성공했을 경우만 작동함.
-             * 로그인이 성공했으므로 로그인버튼의 Text 를 로그아웃으로 설정하고
-             * isLogIn 을 true 로 설정해 현재 로그인 되어있음으로 설정.
-             * 또한 현재 어플리케이션에서 userDTO 를 이 유저로 설정.
-             */
-            this.userDTO=(UserDTO)intent.getSerializableExtra("userDTO");
-            logInBtn.setText("로그아웃");
-            isLogIn=true;
-        }
-        else{
-            /**
-             * 더 이상 다른 곳에서 받는 extra 는 없음
-             * 만약 다른 것을 받으면 에러 로그 표시.
-             */
-            Log.e("intent extra error", "has no extra in intent");
-        }
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             /**
@@ -152,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onMapClick(LatLng latLng) {
                 goneCardView();
-
             }
         });
 
@@ -162,9 +121,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 /**
                  * 검색 버튼 리스너
                  * 충전소 검색화면으로 이동
+                 * 여기서는 메인화면과 검색화면의 상호작용을 위해 startActivityForResult 를 사용.
+                 * 검색 결과를 가져오기 위해.
                  */
                 Intent intent=new Intent(MainActivity.this, ChargerSearch.class);
-                startActivity(intent);
+                startActivityForResult(intent,2);
             }
         });
 
@@ -175,11 +136,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
              * 만약 로그인 되지 않았다면 로그인화면으로 이동
              * 다르게 로그인 되어 있다면 버튼의 Text 를 "로그인"으로 바꿈.
              * 또한 현재 어플리케이션의 userDTO 를 초기화.
+             * 여기서는 로그인화면에서 검색화면으로 userDTO 를 가져오기 위해 StartActivityForResult 를 사용.
              */
             public void onClick(View v) {
                 if(!isLogIn) {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(intent);
+                    startActivityForResult(intent,1);
                 }
                 else{
                     isLogIn=false;
@@ -317,6 +279,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     /**
+     * startActivityForResult 에서 요청한 값을 받아 올 경우 사용.
+     * @param requestCode requestCode 가 같은 경우만 받기 위함, 로그인의 requestCode =1, 검색화면의 requestCode =2
+     * @param resultCode resultCode 가 RESULT_OK 일 경우에만 받도록 설정
+     * @param data 보내는 쪽 intent
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK) {
+            switch (requestCode){
+                case 1:{
+                    this.userDTO=(UserDTO)data.getSerializableExtra("userDTO");
+                    logInBtn.setText("로그아웃");
+                    isLogIn=true;
+                    break;
+                }
+                case 2:{
+                    displayCardView();
+                    selectedCharger=(ChargerDTO)data.getSerializableExtra("selectedCharger");
+                    double lat=selectedCharger.getLat();
+                    double lon=selectedCharger.getLon();
+                    LatLng want = new LatLng(lat, lon);
+                    makeCardViewText(selectedCharger);
+                    mMap.moveCamera(CameraUpdateFactory.newLatLng(want));
+                    mMap.animateCamera(CameraUpdateFactory.zoomTo(15.0f));
+                    break;
+                }
+                default:
+                    Log.e("intent extra error", "has no extra in intent");
+            }
+        }
+
+    }
+
+    /**
      * 네트워크에서 Thread 를 이용하여 충전소 위치를 받아올 class
      */
     public class SearchChargerDetailThread extends Thread {
@@ -346,6 +343,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return this.result;
         }
     }
+
+
 
 
     /**

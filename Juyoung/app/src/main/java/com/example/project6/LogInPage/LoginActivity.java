@@ -98,9 +98,9 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
                         UserDTO resultUserDTO=makeUserDTO(result);
-                        Intent intent=new Intent(LoginActivity.this, MainActivity.class);
+                        Intent intent=new Intent();
                         intent.putExtra("userDTO", resultUserDTO);
-                        startActivity(intent);
+                        setResult(RESULT_OK, intent);
                         finish();
                     }
                 }
