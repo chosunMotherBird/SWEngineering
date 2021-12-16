@@ -50,7 +50,7 @@ Spring framework로 만든 RESTful API 서버와 이를 이용한 Android 앱의
 
 |                                                            메인 화면(초기 상태)                                                             |                                            마커 클릭 시 cardview로 불러오는 충전소 정보 미리보기                                            |
 | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-| <img src="https://user-images.githubusercontent.com/60968342/146352051-c1670d56-ceb2-48a6-b0e5-a9848d3f54ee.png" width="300" height="400"/> | <img src="https://user-images.githubusercontent.com/60968342/146354960-c43c441a-077a-458d-b8e9-0d162433ebce.png" width="200" height="400"/> |
+| <img src="https://user-images.githubusercontent.com/60968342/146352051-c1670d56-ceb2-48a6-b0e5-a9848d3f54ee.png" width="200" height="400"/> | <img src="https://user-images.githubusercontent.com/60968342/146354960-c43c441a-077a-458d-b8e9-0d162433ebce.png" width="200" height="400"/> |
 
 > - 앱 실행 시 초기 화면은 Google Maps와 DB에 저장된 충전소들 각각의 좌표가 다중 마커로 나타납니다. 이 기능은 RESTful API 서버로 구현한 충전소 전체 조회 API를 사용하여 전체 충전소 정보를 불러와 마커로 표시하였습니다.
 > - 메인 화면에 올라온 마커 하나를 클릭하면 해당 충전소의 미리보기 정보가 다음과 같이 Card View로 화면 하단에 나타납니다. 충전소마다 고유한 id값(Primary Key)이 지정되어 DB에 저장되어 있기 때문에 해당 id값을 URL query에 넣어 서버에 전송하면 충전소 단일 조회 API를 호출하여 만든 기능입니다.
