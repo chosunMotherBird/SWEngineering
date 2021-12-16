@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.project6.Charger.ChargerDTO;
 import com.example.project6.SearchPage.ChargerSearchRequest;
 import com.example.project6.DetailPage.DetailActivity;
-import com.example.project6.SearchPage.ChargerSearch;
+import com.example.project6.SearchPage.ChargerSearchActivity;
 import com.example.project6.R;
 import com.example.project6.User.UserDTO;
 import com.example.project6.LogInPage.LoginActivity;
@@ -124,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                  * 여기서는 메인화면과 검색화면의 상호작용을 위해 startActivityForResult 를 사용.
                  * 검색 결과를 가져오기 위해.
                  */
-                Intent intent=new Intent(MainActivity.this, ChargerSearch.class);
+                Intent intent=new Intent(MainActivity.this, ChargerSearchActivity.class);
                 startActivityForResult(intent,2);
             }
         });

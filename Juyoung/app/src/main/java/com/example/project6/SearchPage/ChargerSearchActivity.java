@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * 충전소 검색 페이지
  */
-public class ChargerSearch extends AppCompatActivity {
+public class ChargerSearchActivity extends AppCompatActivity {
     private ArrayList<ChargerDTO> chargerList;
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;

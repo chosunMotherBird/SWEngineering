@@ -26,7 +26,7 @@
             android:name=".SignUpPage.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchPage.ChargerSearch"
+            android:name=".SearchPage.ChargerSearchActivity"
             android:exported="false" />
         <activity
             android:name=".Main.MainActivity"
