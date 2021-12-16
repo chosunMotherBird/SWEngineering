@@ -6,13 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.project6.Charger.ChargerDTO;
-import com.example.project6.ChargerSearch.ChargerSearchRequest;
 import com.example.project6.R;
 
 import org.json.JSONArray;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 /**
  * 충전소 검색 페이지
  */
-public class ChargerSearch extends AppCompatActivity {
+public class ChargerSearchActivity extends AppCompatActivity {
     private ArrayList<ChargerDTO> chargerList;
     private RecyclerView recyclerView;
     private RecyclerAdapter adapter;
@@ -51,36 +52,37 @@ public class ChargerSearch extends AppCompatActivity {
                 setCycler();
                 String Url = "http://192.168.0.2:8088/chargers/address";
                 String Address = String.valueOf(searchBar.getText());
-                chargerList=new ArrayList<>();
-                SearchChargerThread searchChargerThread = new SearchChargerThread(Url, Address);
-                Thread t = new Thread(searchChargerThread);
-                t.start();
-
-                try {
-                    t.join();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                String result = searchChargerThread.getResult();
-
-                try {
-                    if(result!=null) {
-                        jsonArray = new JSONArray(result);
-                        chargerList= makeChargerList(jsonArray);
+                if (Address.isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "주소를 입력 바람", Toast.LENGTH_LONG).show();
+                } else {
+                    chargerList = new ArrayList<>();
+                    SearchChargerThread searchChargerThread = new SearchChargerThread(Url, Address);
+                    Thread t = new Thread(searchChargerThread);
+                    t.start();
+                    try {
+                        t.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    else
-                    {
 
+                    String result = searchChargerThread.getResult();
+
+                    try {
+                        if (result != null) {
+                            jsonArray = new JSONArray(result);
+                            chargerList = makeChargerList(jsonArray);
+                        } else {
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+
+                    for (int i = 0; i < chargerList.size(); i++)
+                        adapter.addItem(chargerList.get(i));
+
+                    recyclerView.setAdapter(adapter);
                 }
-
-                for(int i=0; i<chargerList.size(); i++)
-                    adapter.addItem(chargerList.get(i));
-
-                recyclerView.setAdapter(adapter);
             }
         });
 
@@ -93,7 +95,7 @@ public class ChargerSearch extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        adapter = new RecyclerAdapter(new ArrayList<ChargerDTO>(),getApplicationContext());
+        adapter = new RecyclerAdapter(new ArrayList<ChargerDTO>(),this);
     }
 
 

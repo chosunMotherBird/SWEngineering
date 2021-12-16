@@ -23,7 +23,6 @@ import java.util.ArrayList;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemViewHolder> {
     private ArrayList<ChargerDTO> chargerList;
     private Context context;
-
     public RecyclerAdapter(ArrayList<ChargerDTO> chargerList, Context context) {
         this.chargerList = chargerList;
         this.context = context;
@@ -71,10 +70,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ItemVi
                 public void onClick(View v) {
                     int position= getAdapterPosition();
                     ChargerDTO chargerDTO=chargerList.get(position);
-                    Intent intent=new Intent(v.getContext(), MainActivity.class);
+                    Intent intent=new Intent();
                     intent.putExtra("selectedCharger", chargerDTO);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intent);
+                    ((Activity)context).setResult(Activity.RESULT_OK, intent);
+                    ((Activity) context).finish();
                 }
             });
         }

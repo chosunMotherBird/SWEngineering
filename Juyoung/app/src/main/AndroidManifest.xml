@@ -9,7 +9,7 @@
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="모두의 충전소"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Project6"
@@ -26,7 +26,7 @@
             android:name=".SignUpPage.SignupActivity"
             android:exported="false" />
         <activity
-            android:name=".SearchPage.ChargerSearch"
+            android:name=".SearchPage.ChargerSearchActivity"
             android:exported="false" />
         <activity
             android:name=".Main.MainActivity"
