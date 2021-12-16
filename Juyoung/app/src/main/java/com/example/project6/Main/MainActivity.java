@@ -13,7 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.project6.Charger.ChargerDTO;
-import com.example.project6.ChargerSearch.ChargerSearchRequest;
+import com.example.project6.SearchPage.ChargerSearchRequest;
 import com.example.project6.DetailPage.DetailActivity;
 import com.example.project6.SearchPage.ChargerSearch;
 import com.example.project6.R;
@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
              * isLogIn 을 true 로 설정해 현재 로그인 되어있음으로 설정.
              * 또한 현재 어플리케이션에서 userDTO 를 이 유저로 설정.
              */
-            userDTO=(UserDTO)intent.getSerializableExtra("userDTO");
+            this.userDTO=(UserDTO)intent.getSerializableExtra("userDTO");
             logInBtn.setText("로그아웃");
             isLogIn=true;
         }

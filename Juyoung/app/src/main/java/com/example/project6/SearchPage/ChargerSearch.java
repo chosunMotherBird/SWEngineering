@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.project6.Charger.ChargerDTO;
-import com.example.project6.ChargerSearch.ChargerSearchRequest;
 import com.example.project6.R;
 
 import org.json.JSONArray;
