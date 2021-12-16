@@ -3,6 +3,10 @@ package com.example.project6.User;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * 유저 정보를 전달, 받기 위한 DTO
+ * Intent 로 정보를 주고 받기 위하여 객체를 Serializable 함.
+ */
 public class UserDTO implements Serializable {
     private static final long serialVersionUID=1L;
     String email;
@@ -10,6 +14,9 @@ public class UserDTO implements Serializable {
     String name;
     String phone;
 
+    /**
+     * 맨 처음 userDTO 의 값은 모두 "" 값을 가져야함. 로그인 되지 않았기 떄문.
+     */
     public UserDTO() {
         this.email = "";
         this.password = "";

@@ -13,8 +13,22 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * 로그인을 위한 class
+ */
 public class LoginRequest {
+    /**
+     * 로그인 요청
+     * @param _url localhost:8080/users/login
+     * @param userDTO userDTO 의 email, password 로 로그인 요청
+     * @return user 정보 혹은 Error ResponseCOde
+     */
     public String requestLogin(String _url, UserDTO userDTO){
+        /**
+         * 1. userDTO 의 email, password 를 이용해 jsonObject 를 만듦.
+         * 2. 서버에 jsonObject 주고 결과를 리턴 받음
+         * 3. return 값은 user 정보 혹은 ResponseCode 임.
+         */
         int check=400;
         HttpURLConnection urlConn= null;
         String json="";

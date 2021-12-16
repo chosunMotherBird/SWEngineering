@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.Map;
 
 public class ChargerSearchRequest {
-    public String allChargerRequest(String _url, ContentValues params){
+    public String oneOrMoreChargerSearchRequest(String _url, ContentValues params){
         HttpURLConnection urlConn= null;
         StringBuffer sbParams =new StringBuffer();
 
@@ -55,7 +55,7 @@ public class ChargerSearchRequest {
     }
 
 
-    public String searchChargerDeailRequest(String _url, String Address){
+    public String searchChargerDetailRequest(String _url, String Address){
         HttpURLConnection urlConn= null;
         StringBuffer sbParams =new StringBuffer();
         String json="";
